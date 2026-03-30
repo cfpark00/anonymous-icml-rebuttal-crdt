@@ -42,7 +42,7 @@ Participation ratio of singular values for all 63 experiments, layers 3-6.
 | | |
 |:---:|:---:|
 | ![](assets/main/rank_pt1x_l5.png) | ![](assets/main/rank_pt1x_by_layer.png) |
-| **Figure 2a.** Effective rank at layer 5 per training task, in canonical order. Tasks that learn geographic representations compress to ~13-20 dimensions (of 256 hidden dims). Crossing (161) and inside (118) fail to compress , consistent with their training difficulties. | **Figure 2b.** Layer progression. Most tasks compress from ~100 at layer 3 to ~15-20 by layer 5. Crossing stays flat at ~160 across all layers. |
+| **Figure 2a.** Effective rank at layer 5 per training task, in canonical order. Tasks that learn geographic representations compress to ~13-20 dimensions (of 256 hidden dims). Crossing (161) and inside (118) fail to compress, consistent with their training difficulties. | **Figure 2b.** Layer progression. Most tasks compress from ~100 at layer 3 to ~15-20 by layer 5. Crossing stays flat at ~160 across all layers. |
 
 **Takeaway**: Effective rank provides a quantitative characterization of representation geometry. The dramatic rank gap between tasks that learn spatial structure (13-20) and tasks that don't (118-161) complements the PCA visualization.
 
@@ -91,7 +91,7 @@ All experiments replicated across 4 random seeds.
 | | |
 |:---:|:---:|
 | ![](assets/main/seed_ftwb2_aggregated.png) | ![](assets/main/probe_gen_histogram.png) |
-| **Figure 5a.** FTWB2 performance aggregated across 4 seeds. Trained=0.897, Transfer=0.601. | **Figure 5b.** Probe generalization. Distance causes ~5x worse OOD error. Training with Atlantis (Exp5) eliminates the effect. |
+| **Figure 5a.** FTWB2 performance aggregated across 4 seeds. Trained=0.897, Transfer=0.601. | **Figure 5b.** Probe generalization. Distance causes ~2.8x worse OOD error. Training with Atlantis (Exp5) eliminates the effect. |
 
 **Takeaway**: All phenomena are robust across seeds. The aggregated 4-seed results support the claims from the original single-seed analysis.
 
