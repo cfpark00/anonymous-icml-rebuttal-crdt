@@ -6,7 +6,7 @@ New experiments and analyses addressing reviewer concerns. Figures referenced in
 
 ---
 
-## 1. Representation Similarity — Four Metrics (pKZe Q3, rQVL W3)
+## 1. Representation Similarity  - Four Metrics (pKZe Q3, rQVL W3)
 
 We computed CKA, RSA, SNN (k=10), and SVCCA across all pairwise comparisons for PT1-X (single-task, 7 tasks x 3 seeds), PT2 (two-task, 7 pairs x 3 seeds), and PT3 (three-task, 7 triples x 3 seeds). 210 pairs per group x 4 layers x 4 metrics = **10,080 total computations**. Each column below shows the 7x7 task-averaged similarity matrix (with SEM) at layer 5, progressing from 1-task to 2-task to 3-task training.
 
@@ -33,22 +33,22 @@ We computed CKA, RSA, SNN (k=10), and SVCCA across all pairwise comparisons for 
 | |
 |:---:|
 | ![](assets/main/convergence_trend.png) |
-| **Figure 1e.** Convergence trend across all four metrics. Solid lines: intra-task (same task, different seeds). Dashed lines: inter-task (different tasks). All metrics increase with task count; intra–inter gap closes by 2–3 tasks, indicating convergence. |
+| **Figure 1e.** Cross-task representation similarity (non-overlapping task pairs only) as a function of the number of training tasks. All four metrics increase from 1-task to 2-task to 3-task training. |
 
-**Takeaway**: All four metrics confirm representation convergence (1-task → 2-task → 3-task). CKA, RSA, and SNN significantly distinguish intra from inter for PT1-X (p < 0.01); by PT2/PT3, intra ≈ inter — representations converge regardless of task identity. SNN (the non-global metric emphasized by the PRH paper) supports convergence strongly. SVCCA shows subspaces align even across isolated tasks; it is the finer geometry that differs.
+**Takeaway**: All four metrics confirm representation convergence as task count increases. Even models trained on completely non-overlapping task sets become more similar with more tasks. SNN (the non-global metric emphasized by the PRH paper) supports convergence. SVCCA shows subspaces align even across isolated tasks; it is the finer geometry that differs.
 
 ---
 
 ## 2. Effective Rank (pKZe "representation rank", rQVL)
 
-Participation ratio of singular values for all 63 experiments, layers 3–6.
+Participation ratio of singular values for all 63 experiments, layers 3-6.
 
 | | |
 |:---:|:---:|
 | ![](assets/main/rank_pt1x_l5.png) | ![](assets/main/rank_pt1x_by_layer.png) |
-| **Figure 2a.** Effective rank at layer 5 per training task, in canonical order. Tasks that learn geographic representations compress to ~13–20 dimensions (of 256 hidden dims). Crossing (161) and inside (118) fail to compress — consistent with their training difficulties. | **Figure 2b.** Layer progression. Most tasks compress from ~100 at layer 3 to ~15–20 by layer 5. Crossing stays flat at ~160 across all layers. |
+| **Figure 2a.** Effective rank at layer 5 per training task, in canonical order. Tasks that learn geographic representations compress to ~13-20 dimensions (of 256 hidden dims). Crossing (161) and inside (118) fail to compress  - consistent with their training difficulties. | **Figure 2b.** Layer progression. Most tasks compress from ~100 at layer 3 to ~15-20 by layer 5. Crossing stays flat at ~160 across all layers. |
 
-**Takeaway**: Effective rank provides a quantitative characterization of representation geometry. The dramatic rank gap between tasks that learn spatial structure (13–20) and tasks that don't (118–161) offers a simple diagnostic complementing PCA inspection.
+**Takeaway**: Effective rank provides a quantitative characterization of representation geometry. The dramatic rank gap between tasks that learn spatial structure (13-20) and tasks that don't (118-161) offers a simple diagnostic complementing PCA inspection.
 
 ---
 
@@ -71,7 +71,7 @@ Participation ratio of singular values for all 63 experiments, layers 3–6.
 | **Original (clustered)** | 495 +/- 51 | 179 +/- 21 | 0.0003 |
 | **Scattered** | 1069 +/- 49 | 485 +/- 52 | 0.0001 |
 
-**Takeaway**: The divergent task effect is not an artifact of Atlantis clustering. It holds — and is even more significant — when new entities are uniformly distributed. Figure 3b shows this visually: without the distance task, predicted Atlantis locations cluster near their true positions; with the distance task, predictions scatter widely.
+**Takeaway**: The divergent task effect is not an artifact of Atlantis clustering. It holds  - and is even more significant  - when new entities are uniformly distributed. Figure 3b shows this visually: without the distance task, predicted Atlantis locations cluster near their true positions; with the distance task, predictions scatter widely.
 
 ---
 
@@ -82,9 +82,9 @@ Participation ratio of singular values for all 63 experiments, layers 3–6.
 | |
 |:---:|
 | ![](assets/main/width_ablation_diff.png) |
-| **Figure 4.** FTWB2 - FTWB1 difference for the wide model. Same qualitative pattern as the default architecture — distance remains divergent. |
+| **Figure 4.** FTWB2 - FTWB1 difference for the wide model. Same qualitative pattern as the default architecture  - distance remains divergent. |
 
-**Takeaway**: Doubling model capacity does not resolve the divergent task phenomenon. This is a property of the task–representation interaction, not a capacity limitation.
+**Takeaway**: Doubling model capacity does not resolve the divergent task phenomenon. This is a property of the task-representation interaction, not a capacity limitation.
 
 ---
 
@@ -106,9 +106,9 @@ All experiments replicated across 4 random seeds.
 
 Everything below is the complete set of plots for all metrics, groups, and layers. Provided for thoroughness; not referenced in the rebuttal text.
 
-## CKA — All Groups, All Layers
+## CKA  - All Groups, All Layers
 
-Per group (pt1x, pt2, pt3, ftwb1, ftwb2), per layer (3–6): `full_matrix`, `averaged_matrix`, `averaged_matrix_sem`, `intra_vs_inter`.
+Per group (pt1x, pt2, pt3, ftwb1, ftwb2), per layer (3-6): `full_matrix`, `averaged_matrix`, `averaged_matrix_sem`, `intra_vs_inter`.
 
 | File | Description |
 |------|-------------|
@@ -121,7 +121,7 @@ Per group (pt1x, pt2, pt3, ftwb1, ftwb2), per layer (3–6): `full_matrix`, `ave
 | `full_dump/cka/ftwb1_*` | Same set for FTWB1 (layer 5 only) |
 | `full_dump/cka/ftwb2_*` | Same set for FTWB2 (layer 5 only) |
 
-## RSA — All Groups, All Layers
+## RSA  - All Groups, All Layers
 
 | File | Description |
 |------|-------------|
@@ -129,7 +129,7 @@ Per group (pt1x, pt2, pt3, ftwb1, ftwb2), per layer (3–6): `full_matrix`, `ave
 | `full_dump/rsa/{pt1x,pt2,pt3}_averaged_matrix_sem_l{3,4,5,6}.png` | 7x7 averaged + SEM |
 | `full_dump/rsa/{pt1x,pt2,pt3}_intra_vs_inter_l{3,4,5,6}.png` | Bar plots |
 
-## SNN — All Groups, All Layers
+## SNN  - All Groups, All Layers
 
 | File | Description |
 |------|-------------|
@@ -137,7 +137,7 @@ Per group (pt1x, pt2, pt3, ftwb1, ftwb2), per layer (3–6): `full_matrix`, `ave
 | `full_dump/snn/{pt1x,pt2,pt3}_averaged_matrix_sem_l{3,4,5,6}.png` | 7x7 averaged + SEM |
 | `full_dump/snn/{pt1x,pt2,pt3}_intra_vs_inter_l{3,4,5,6}.png` | Bar plots |
 
-## SVCCA — All Groups, All Layers
+## SVCCA  - All Groups, All Layers
 
 | File | Description |
 |------|-------------|
@@ -145,14 +145,14 @@ Per group (pt1x, pt2, pt3, ftwb1, ftwb2), per layer (3–6): `full_matrix`, `ave
 | `full_dump/svcca/{pt1x,pt2,pt3}_averaged_matrix_sem_l{3,4,5,6}.png` | 7x7 averaged + SEM |
 | `full_dump/svcca/{pt1x,pt2,pt3}_intra_vs_inter_l{3,4,5,6}.png` | Bar plots |
 
-## Effective Rank — All Groups, All Layers
+## Effective Rank  - All Groups, All Layers
 
 | File | Description |
 |------|-------------|
 | `full_dump/effective_rank/{pt1x,pt2,pt3}_rank_bar_l{3,4,5,6}.png` | Per-variant rank bars |
 | `full_dump/effective_rank/{pt1x,pt2,pt3}_rank_by_layer.png` | Layer progression |
 
-## Seed Robustness — All Individual Seeds
+## Seed Robustness  - All Individual Seeds
 
 | File | Description |
 |------|-------------|
