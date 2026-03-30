@@ -30,6 +30,11 @@ We computed CKA, RSA, SNN (k=10), and SVCCA across all pairwise comparisons for 
 | **SVCCA** | Intra | 0.609 (p=0.366) | 0.612 (p=0.073) | 0.742 (p=0.459) |
 | | Inter | 0.551 | 0.703 | 0.777 |
 
+| |
+|:---:|
+| ![](assets/main/convergence_trend.png) |
+| **Figure 1e.** Convergence trend across all four metrics. Solid lines: intra-task (same task, different seeds). Dashed lines: inter-task (different tasks). All metrics increase with task count; intra–inter gap closes by 2–3 tasks, indicating convergence. |
+
 **Takeaway**: All four metrics confirm representation convergence (1-task → 2-task → 3-task). CKA, RSA, and SNN significantly distinguish intra from inter for PT1-X (p < 0.01); by PT2/PT3, intra ≈ inter — representations converge regardless of task identity. SNN (the non-global metric emphasized by the PRH paper) supports convergence strongly. SVCCA shows subspaces align even across isolated tasks; it is the finer geometry that differs.
 
 ---
