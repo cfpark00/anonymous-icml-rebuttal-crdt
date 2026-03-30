@@ -41,7 +41,7 @@ Participation ratio of singular values for all 63 experiments, layers 3–6.
 | | |
 |:---:|:---:|
 | ![](assets/main/rank_pt1x_l5.png) | ![](assets/main/rank_pt1x_by_layer.png) |
-| **Figure 2a.** Per-task effective rank at layer 5. Successful tasks compress to ~13–20 dims (of 256). Crossing (161) and inside (118) fail to compress. | **Figure 2b.** Layer progression. Most tasks: ~100 at L3 → ~15–20 by L5. Crossing flat at ~160. |
+| **Figure 2a.** Effective rank at layer 5 per training task, in canonical order. Tasks that learn geographic representations compress to ~13–20 dimensions (of 256 hidden dims). Crossing (161) and inside (118) fail to compress — consistent with their training difficulties. | **Figure 2b.** Layer progression. Most tasks compress from ~100 at layer 3 to ~15–20 by layer 5. Crossing stays flat at ~160 across all layers. |
 
 **Takeaway**: Effective rank provides a quantitative characterization of representation geometry. The dramatic rank gap between tasks that learn spatial structure (13–20) and tasks that don't (118–161) offers a simple diagnostic complementing PCA inspection.
 
