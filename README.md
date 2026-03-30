@@ -8,7 +8,7 @@ New experiments and analyses addressing reviewer concerns. Figures referenced in
 
 ## 1. Representation Similarity  - Four Metrics (pKZe Q3, rQVL W3)
 
-We computed CKA, RSA, SNN (k=10), and SVCCA across all pairwise comparisons for PT1-X (single-task, 7 tasks x 3 seeds), PT2 (two-task, 7 pairs x 3 seeds), and PT3 (three-task, 7 triples x 3 seeds). 210 pairs per group x 4 layers x 4 metrics = **10,080 total computations**. Each column below shows the 7x7 task-averaged similarity matrix (with SEM) at layer 5, progressing from 1-task to 2-task to 3-task training.
+We computed CKA, RSA, SNN (k=10), and SVCCA across all pairwise comparisons for PT1-X (single-task, 7 tasks x 3 seeds), PT2 (two-task, 7 pairs x 3 seeds), and PT3 (three-task, 7 triples x 3 seeds). 210 pairs per group x 4 layers x 4 metrics = 10,080 total computations. Each column below shows the 7x7 task-averaged similarity matrix (with SEM) at layer 5, progressing from 1-task to 2-task to 3-task training.
 
 | | PT1-X (1 task) | PT2 (2 tasks) | PT3 (3 tasks) |
 |---|:---:|:---:|:---:|
@@ -17,18 +17,14 @@ We computed CKA, RSA, SNN (k=10), and SVCCA across all pairwise comparisons for 
 | **SNN** | ![](assets/main/snn_pt1x_l5.png) | ![](assets/main/snn_pt2_l5.png) | ![](assets/main/snn_pt3_l5.png) |
 | **SVCCA** | ![](assets/main/svcca_pt1x_l5.png) | ![](assets/main/svcca_pt2_l5.png) | ![](assets/main/svcca_pt3_l5.png) |
 
-**Table 1.** Intra-task vs inter-task similarity at layer 5 (Welch's t-test).
+**Table 1.** Cross-task similarity at layer 5 (non-overlapping task pairs only).
 
-| Metric | | PT1-X (1 task) | PT2 (2 tasks) | PT3 (3 tasks) |
-|--------|---|:---:|:---:|:---:|
-| **CKA** | Intra | 0.736 (p=0.001\*\*) | 0.912 (p=0.022\*) | 0.906 (p=0.013\*) |
-| | Inter | 0.501 | 0.883 | 0.865 |
-| **RSA** | Intra | 0.719 (p=0.002\*\*) | 0.917 (p=0.226) | 0.923 (p=0.065) |
-| | Inter | 0.467 | 0.895 | 0.891 |
-| **SNN** | Intra | 0.176 (p=0.005\*\*) | 0.211 (p=0.155) | 0.218 (p=0.373) |
-| | Inter | 0.101 | 0.190 | 0.208 |
-| **SVCCA** | Intra | 0.609 (p=0.366) | 0.612 (p=0.073) | 0.742 (p=0.459) |
-| | Inter | 0.551 | 0.703 | 0.777 |
+| Metric | PT1-X (1 task) | PT2 (2 tasks) | PT3 (3 tasks) |
+|--------|:---:|:---:|:---:|
+| **CKA** | 0.501 | 0.879 | 0.854 |
+| **RSA** | 0.467 | 0.892 | 0.885 |
+| **SNN** | 0.101 | 0.185 | 0.204 |
+| **SVCCA** | 0.551 | 0.729 | 0.794 |
 
 | |
 |:---:|
@@ -46,9 +42,9 @@ Participation ratio of singular values for all 63 experiments, layers 3-6.
 | | |
 |:---:|:---:|
 | ![](assets/main/rank_pt1x_l5.png) | ![](assets/main/rank_pt1x_by_layer.png) |
-| **Figure 2a.** Effective rank at layer 5 per training task, in canonical order. Tasks that learn geographic representations compress to ~13-20 dimensions (of 256 hidden dims). Crossing (161) and inside (118) fail to compress  - consistent with their training difficulties. | **Figure 2b.** Layer progression. Most tasks compress from ~100 at layer 3 to ~15-20 by layer 5. Crossing stays flat at ~160 across all layers. |
+| **Figure 2a.** Effective rank at layer 5 per training task, in canonical order. Tasks that learn geographic representations compress to ~13-20 dimensions (of 256 hidden dims). Crossing (161) and inside (118) fail to compress , consistent with their training difficulties. | **Figure 2b.** Layer progression. Most tasks compress from ~100 at layer 3 to ~15-20 by layer 5. Crossing stays flat at ~160 across all layers. |
 
-**Takeaway**: Effective rank provides a quantitative characterization of representation geometry. The dramatic rank gap between tasks that learn spatial structure (13-20) and tasks that don't (118-161) offers a simple diagnostic complementing PCA inspection.
+**Takeaway**: Effective rank provides a quantitative characterization of representation geometry. The dramatic rank gap between tasks that learn spatial structure (13-20) and tasks that don't (118-161) complements the PCA visualization.
 
 ---
 
@@ -71,7 +67,7 @@ Participation ratio of singular values for all 63 experiments, layers 3-6.
 | **Original (clustered)** | 495 +/- 51 | 179 +/- 21 | 0.0003 |
 | **Scattered** | 1069 +/- 49 | 485 +/- 52 | 0.0001 |
 
-**Takeaway**: The divergent task effect is not an artifact of Atlantis clustering. It holds  - and is even more significant  - when new entities are uniformly distributed. Figure 3b shows this visually: without the distance task, predicted Atlantis locations cluster near their true positions; with the distance task, predictions scatter widely.
+**Takeaway**: The divergent task effect is not an artifact of Atlantis clustering. It holds, and is even more significant, when new entities are uniformly distributed. Figure 3b shows this visually: without the distance task, predicted Atlantis locations cluster near their true positions; with the distance task, predictions scatter widely.
 
 ---
 
@@ -82,7 +78,7 @@ Participation ratio of singular values for all 63 experiments, layers 3-6.
 | |
 |:---:|
 | ![](assets/main/width_ablation_diff.png) |
-| **Figure 4.** FTWB2 - FTWB1 difference for the wide model. Same qualitative pattern as the default architecture  - distance remains divergent. |
+| **Figure 4.** FTWB2 - FTWB1 difference for the wide model. Same qualitative pattern as the default architecture: distance remains divergent. |
 
 **Takeaway**: Doubling model capacity does not resolve the divergent task phenomenon. This is a property of the task-representation interaction, not a capacity limitation.
 
@@ -97,7 +93,7 @@ All experiments replicated across 4 random seeds.
 | ![](assets/main/seed_ftwb2_aggregated.png) | ![](assets/main/probe_gen_histogram.png) |
 | **Figure 5a.** FTWB2 performance aggregated across 4 seeds. Trained=0.897, Transfer=0.601. | **Figure 5b.** Probe generalization. Distance causes ~5x worse OOD error. Training with Atlantis (Exp5) eliminates the effect. |
 
-**Takeaway**: All phenomena are robust across seeds. The aggregated 4-seed results strengthen every claim from the original single-seed analysis.
+**Takeaway**: All phenomena are robust across seeds. The aggregated 4-seed results support the claims from the original single-seed analysis.
 
 ---
 ---
