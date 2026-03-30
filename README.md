@@ -33,7 +33,7 @@ We computed CKA, RSA, SNN (k=10), and SVCCA across all pairwise comparisons for 
 | |
 |:---:|
 | ![](assets/main/convergence_trend.png) |
-| **Figure 1e.** Cross-task representation similarity (non-overlapping task pairs only) as a function of the number of training tasks. All four metrics increase from 1-task to 2-task to 3-task training. |
+| **Figure 1e.** Cross-task representation similarity (non-overlapping task pairs only) at layers 3, 4, and 5. All four metrics increase from 1-task to 2-task to 3-task training across all layers. Convergence is stronger in later layers. |
 
 **Takeaway**: All four metrics confirm representation convergence as task count increases. Even models trained on completely non-overlapping task sets become more similar with more tasks. SNN (the non-global metric emphasized by the PRH paper) supports convergence. SVCCA shows subspaces align even across isolated tasks; it is the finer geometry that differs.
 
