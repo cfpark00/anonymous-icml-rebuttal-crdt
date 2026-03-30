@@ -83,19 +83,6 @@ Participation ratio of singular values for all 63 experiments, layers 3-6.
 **Takeaway**: Doubling model capacity does not resolve the divergent task phenomenon. This is a property of the task-representation interaction, not a capacity limitation.
 
 ---
-
-## 5. Seed Robustness (all reviewers)
-
-All experiments replicated across 4 random seeds.
-
-| | |
-|:---:|:---:|
-| ![](assets/main/seed_ftwb2_aggregated.png) | ![](assets/main/probe_gen_histogram.png) |
-| **Figure 5a.** FTWB2 performance aggregated across 4 seeds. Trained=0.897, Transfer=0.601. | **Figure 5b.** Probe generalization. Distance causes ~2.8x worse OOD error. Training with Atlantis (Exp5) eliminates the effect. |
-
-**Takeaway**: All phenomena are robust across seeds. The aggregated 4-seed results support the claims from the original single-seed analysis.
-
----
 ---
 
 # Full Figure Dump
