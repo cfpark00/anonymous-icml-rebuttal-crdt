@@ -54,14 +54,19 @@ Participation ratio of singular values for all 63 experiments, layers 3–6.
 | |
 |:---:|
 | ![](assets/main/scattered_atlantis.png) |
-| **Figure 3.** Probe generalization: original (clustered) vs scattered Atlantis. Distance task harms generalization in both conditions (p < 0.001). |
+| **Figure 3a.** Probe generalization error: original (clustered) vs scattered Atlantis. Distance task harms generalization in both conditions. |
+
+| |
+|:---:|
+| ![](assets/main/scattered_atlantis_examples.png) |
+| **Figure 3b.** Ground-truth (red circles) vs probe-predicted (blue crosses) Atlantis locations. Top: clustered Atlantis. Bottom: scattered Atlantis. Left: with distance task (large errors). Right: without distance task (small errors). Purple lines connect GT to prediction. |
 
 | Condition | With distance (n=6) | Without distance (n=15) | p-value |
 |-----------|:---:|:---:|:---:|
 | **Original (clustered)** | 495 +/- 51 | 179 +/- 21 | 0.0003 |
 | **Scattered** | 1069 +/- 49 | 485 +/- 52 | 0.0001 |
 
-**Takeaway**: The divergent task effect is not an artifact of Atlantis clustering. It holds — and is even more significant — when new entities are uniformly distributed.
+**Takeaway**: The divergent task effect is not an artifact of Atlantis clustering. It holds — and is even more significant — when new entities are uniformly distributed. Figure 3b shows this visually: without the distance task, predicted Atlantis locations cluster near their true positions; with the distance task, predictions scatter widely.
 
 ---
 
