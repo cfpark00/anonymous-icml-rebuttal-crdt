@@ -83,6 +83,26 @@ Participation ratio of singular values for all 63 experiments, layers 3-6.
 **Takeaway**: Doubling model capacity does not resolve the divergent task phenomenon. This is a property of the task-representation interaction, not a capacity limitation.
 
 ---
+
+## 5. Activation Gradient Analysis (CBid Q3 — Mechanistic Evidence)
+
+We computed the gradient of the fine-tuning loss with respect to hidden activations *at the novel entity's token position* for each of the 7 single-task fine-tuning datasets (~5,500 gradient samples per task). This measures: "which direction does each task's loss want to push the new entity's internal representation?" We then compare these directions across tasks and project them onto the coordinate probe subspace (the 2D linear subspace that encodes X, Y coordinates).
+
+| Layer 3 | Layer 4 | Layer 5 |
+|:---:|:---:|:---:|
+| ![](assets/main/activation_grad_cossim_l3.png) | ![](assets/main/activation_grad_cossim_l4.png) | ![](assets/main/activation_grad_cossim_l5.png) |
+
+**Figure 5a.** Pairwise cosine similarity of mean activation gradients at atlantis (novel entity) token positions, across layers 3–5. Distance is *anti-correlated* with all six other tasks at every layer, while the other six are mutually aligned (0.60–0.95). The effect is strongest at layers 3–4 (the causal computation layers).
+
+| Layer 3 | Layer 4 | Layer 5 |
+|:---:|:---:|:---:|
+| ![](assets/main/activation_grad_coord_space_l3.png) | ![](assets/main/activation_grad_coord_space_l4.png) | ![](assets/main/activation_grad_coord_space_l5.png) |
+
+**Figure 5b.** Mean activation gradient projected onto the X and Y coordinate probe directions. Each point is one task. Distance (red square) is the only task with a negative X-projection at every layer — it pushes new entity representations in the opposite direction along the primary coordinate axis.
+
+**Takeaway**: This provides mechanistic evidence for *why* the distance task harms new entity integration. At the representation level, distance fine-tuning gradients push novel entity activations in the opposite direction from all other tasks. The other six tasks agree on which direction to move representations (positive X), but distance pushes the opposite way (negative X). This is not an optimization artifact — it reflects a fundamental conflict between what distance learning requires and what the shared coordinate space demands.
+
+---
 ---
 
 # Full Figure Dump
