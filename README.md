@@ -86,7 +86,11 @@ Participation ratio of singular values for all 63 experiments, layers 3-6.
 
 ## 5. Gradient Analysis (CBid Q3 - Mechanistic Evidence)
 
-We analyze task gradient alignment at two levels: (a) parameter-space gradients (which model weights each task wants to update), and (b) activation-space gradients (which direction each task wants to push the novel entity's internal representation). The contrast between these two analyses is informative.
+We analyze task gradient alignment at two levels to understand *where* the divergence lives.
+
+- **Method:** For each single-task FT objective, we compute (a) the gradient w.r.t. all model parameters, and (b) the gradient w.r.t. hidden activations at the novel entity's token position. We then measure pairwise cosine similarity across all 7 tasks.
+- **Parameter space (Figure 5a):** All task pairs are near-orthogonal (cossim 0.04–0.25), with no task standing out. This is expected in high dimensions and tells us the tasks update largely independent parameter subsets.
+- **Activation space (Figures 5b-c):** The six non-distance tasks form a tight cluster (cossim 0.60–0.95), all pushing entity representations in the same direction. Distance is anti-correlated with every one of them. The conflict is specifically about *what happens to the entity's representation*, not about which weights get updated.
 
 ### 5a. Parameter-Space Gradient Similarity
 
