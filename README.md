@@ -139,16 +139,36 @@ To test whether distance divergence depends on *which* region is held out during
 | |
 |:---:|
 | ![](assets/main/exp7_ftwb2_vs_ftwb1_3regions.png) |
-| **Figure 6b.** FTWB2 minus best-FTWB1 (two-task synergy/interference) for three holdout regions. Blue = synergy (two-task exceeds best single-task), red = interference. The pattern is consistent across all three regions: pairs containing inside+perimeter, crossing+distance, trianglearea+angle show interference (rows 3-6), while pairs like distance+inside, angle+crossing show synergy (rows 19, 21). |
+| **Figure 6b.** FTWB2 minus best-FTWB1 (two-task synergy/interference) for three holdout regions. Blue = synergy (two-task exceeds best single-task), red = interference. The pattern is consistent across all three regions: all 6 distance-containing pairs (rows D,T through D,Cr) show interference, while non-distance pairs are neutral to mildly synergistic. |
 
 | Region | FTWB1 Distance transfer | FTWB1 Other tasks transfer (avg) | FTWB2 overall diff |
 |--------|:---:|:---:|:---:|
 | **North Africa** | 0.11 | 0.50 | +0.009 |
 | **North India** | 0.12 | 0.49 | -0.001 |
 | **Middle East** | 0.04 | 0.43 | +0.021 |
-| **Original Atlantis** | 0.06 | 0.47 | |
+| **Original Atlantis** | 0.06 | 0.47 | — |
 
-**Takeaway**: Distance is the worst-transferring task regardless of which geographic region is held out. The divergent task phenomenon is a property of the task itself, not of the holdout geometry. This directly addresses Q2a: no other task becomes divergent when the pretraining data distribution changes. Combined with the scattered Atlantis experiment (Section 3, addressing Q2b), this establishes that distance divergence is invariant to both the geometry and location of held-out entities.
+### Probe Generalization
+
+To further confirm that distance harms *representational* integration (not just task performance), we extracted layer-5 representations from one well-integrated model (A+P = angle+perimeter, no distance) and one ill-integrated model (D+I = distance+inside) per region. We trained a linear probe on non-holdout city representations to predict x,y coordinates, then tested on holdout cities.
+
+| |
+|:---:|
+| ![](assets/main/exp7_probe_gen_maps.png) |
+| **Figure 6c.** Probe generalization: ground truth holdout locations (black crosses) vs probe-predicted locations (red dots). Left column: well-integrated model (A+P). Right column: ill-integrated model (D+I). The distance-containing model's predictions scatter widely, indicating that holdout cities are not correctly placed in the learned coordinate space. |
+
+| |
+|:---:|
+| ![](assets/main/exp7_probe_gen_error_comparison.png) |
+| **Figure 6d.** Mean probe distance error across regions. The well-integrated model (A+P, blue) matches the baseline error on non-holdout cities (gray), confirming that holdout cities are correctly integrated into the spatial representation. The ill-integrated model (D+I, red) shows 3-4x higher error, confirming representational harm from the distance task. |
+
+| Region | A+P (no distance) | D+I (has distance) | Baseline |
+|--------|:---:|:---:|:---:|
+| **North Africa** | 113 | 318 | 119 |
+| **North India** | 128 | 333 | 121 |
+| **Middle East** | 112 | 435 | 133 |
+
+**Takeaway**: Distance is the worst-transferring task regardless of which geographic region is held out. The divergent task phenomenon is a property of the task itself, not of the holdout geometry. The probe generalization analysis confirms this extends to the *representational* level: the distance task prevents holdout cities from being correctly placed in the learned coordinate space, while non-distance models integrate holdout cities at baseline accuracy. This directly addresses Q2a: no other task becomes divergent when the pretraining data distribution changes. Combined with the scattered Atlantis experiment (Section 3, addressing Q2b), this establishes that distance divergence is invariant to both the geometry and location of held-out entities.
 
 ---
 ---
