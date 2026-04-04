@@ -126,7 +126,7 @@ The parameter-level analysis does not single out distance. But divergent fine-tu
 
 We test whether the divergent task phenomenon depends on *which* region is held out during pretraining, by running the full pipeline three times with three different holdout regions. 87 new models total.
 
-- **Setup:** Three geographic holdout regions — North Africa (234 cities), North India (259 cities), Middle East (210 cities). Each excluded from pretraining, then integrated via fine-tuning. Full PT1 + 7 FTWB1 + 21 FTWB2 per region.
+- **Setup:** Three geographic holdout regions: North Africa (234 cities), North India (259 cities), Middle East (210 cities). Each excluded from pretraining, then integrated via fine-tuning. Full PT1 + 7 FTWB1 + 21 FTWB2 per region.
 - **FTWB1 (Figure 6a):** Distance is the worst single-task specialist at transferring to other tasks in every region (avg transfer: NA=0.11, NI=0.12, ME=0.04 vs other tasks 0.43–0.50). No other task becomes divergent.
 - **FTWB2 best-teacher (Figure 6b):** All 6 distance-containing pairs show interference (red), non-distance pairs are neutral/synergistic. Pattern is identical across all 3 regions.
 - **Probe generalization (Figures 6c-d):** A non-distance model (A+P) integrates holdout cities at baseline accuracy (error 112–128 ≈ baseline 119–133). A distance-containing model (D+I) shows 3–4× worse probe error (318–435), confirming representational harm.
