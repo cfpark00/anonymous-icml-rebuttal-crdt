@@ -127,24 +127,24 @@ The parameter-level analysis does not single out distance. But divergent fine-tu
 We test whether the divergent task phenomenon depends on *which* region is held out during pretraining, by running the full pipeline three times with three different holdout regions. 87 new models total.
 
 - **Setup:** Three geographic holdout regions: North Africa (234 cities), North India (259 cities), Middle East (210 cities). Each excluded from pretraining, then integrated via fine-tuning. Full PT1 + 7 FTWB1 + 21 FTWB2 per region.
-- **FTWB1 (Figure 6a):** Distance is the worst single-task specialist at transferring to other tasks in every region (avg transfer: NA=0.11, NI=0.12, ME=0.04 vs other tasks 0.43–0.50). No other task becomes divergent.
-- **FTWB2 best-teacher (Figure 6b):** All 6 distance-containing pairs show interference (red), non-distance pairs are neutral/synergistic. Pattern is identical across all 3 regions.
-- **Probe generalization (Figures 6c-d):** A non-distance model (A+P) integrates holdout cities at baseline accuracy (error 112–128 ≈ baseline 119–133). A distance-containing model (D+I) shows 3–4× worse probe error (318–435), confirming representational harm.
+- **FTWB1 (Figure 6b):** Distance is the worst single-task specialist at transferring to other tasks in every region (avg transfer: NA=0.11, NI=0.12, ME=0.04 vs other tasks 0.43–0.50). No other task becomes divergent.
+- **FTWB2 best-teacher (Figure 6c):** All 6 distance-containing pairs show interference (red), non-distance pairs are neutral/synergistic. Pattern is identical across all 3 regions.
+- **Probe generalization (Figures 6d-e):** A non-distance model (A+P) integrates holdout cities at baseline accuracy (error 112–128 ≈ baseline 119–133). A distance-containing model (D+I) shows 3–4× worse probe error (318–435), confirming representational harm.
 
 | |
 |:---:|
 | ![](assets/main/exp7_holdout_regions.png) |
-| **Figure 6.** The three geographic holdout regions. Each region is excluded from pretraining data, then integrated via fine-tuning. |
+| **Figure 6a.** The three geographic holdout regions. Each region is excluded from pretraining data, then integrated via fine-tuning. |
 
 | |
 |:---:|
 | ![](assets/main/exp7_ftwb1_3regions.png) |
-| **Figure 6a.** FTWB1 single-task normalized improvement heatmaps (7x7) for three holdout regions. Rows = fine-tuning task, columns = evaluation task. Distance (row D) consistently shows near-zero transfer to all other tasks across all three regions (avg: NA=0.11, NI=0.12, ME=0.04), while other tasks transfer substantially. |
+| **Figure 6b.** FTWB1 single-task normalized improvement heatmaps (7x7) for three holdout regions. Rows = fine-tuning task, columns = evaluation task. Distance (row D) consistently shows near-zero transfer to all other tasks across all three regions (avg: NA=0.11, NI=0.12, ME=0.04), while other tasks transfer substantially. |
 
 | |
 |:---:|
 | ![](assets/main/exp7_ftwb2_vs_ftwb1_3regions.png) |
-| **Figure 6b.** FTWB2 minus best-FTWB1 (two-task synergy/interference) for three holdout regions. Blue = synergy (two-task exceeds best single-task), red = interference. The pattern is consistent across all three regions: all 6 distance-containing pairs (rows D,T through D,Cr) show interference, while non-distance pairs are neutral to mildly synergistic. |
+| **Figure 6c.** FTWB2 minus best-FTWB1 (two-task synergy/interference) for three holdout regions. Blue = synergy (two-task exceeds best single-task), red = interference. The pattern is consistent across all three regions: all 6 distance-containing pairs (rows D,T through D,Cr) show interference, while non-distance pairs are neutral to mildly synergistic. |
 
 | Region | FTWB1 Distance transfer | FTWB1 Other tasks transfer (avg) | FTWB2 overall diff |
 |--------|:---:|:---:|:---:|
@@ -160,12 +160,12 @@ To further confirm that distance harms *representational* integration (not just 
 | |
 |:---:|
 | ![](assets/main/exp7_probe_gen_maps.png) |
-| **Figure 6c.** Probe generalization: ground truth holdout locations (black crosses) vs probe-predicted locations (red dots). Left column: well-integrated model (A+P). Right column: ill-integrated model (D+I). The distance-containing model's predictions scatter widely, indicating that holdout cities are not correctly placed in the learned coordinate space. |
+| **Figure 6d.** Probe generalization: ground truth holdout locations (black crosses) vs probe-predicted locations (red dots). Left column: well-integrated model (A+P). Right column: ill-integrated model (D+I). The distance-containing model's predictions scatter widely, indicating that holdout cities are not correctly placed in the learned coordinate space. |
 
 | |
 |:---:|
 | ![](assets/main/exp7_probe_gen_error_comparison.png) |
-| **Figure 6d.** Mean probe distance error across regions. The well-integrated model (A+P, blue) matches the baseline error on non-holdout cities (gray), confirming that holdout cities are correctly integrated into the spatial representation. The ill-integrated model (D+I, red) shows 3-4x higher error, confirming representational harm from the distance task. |
+| **Figure 6e.** Mean probe distance error across regions. The well-integrated model (A+P, blue) matches the baseline error on non-holdout cities (gray), confirming that holdout cities are correctly integrated into the spatial representation. The ill-integrated model (D+I, red) shows 3-4x higher error, confirming representational harm from the distance task. |
 
 | Region | A+P (no distance) | D+I (has distance) | Baseline |
 |--------|:---:|:---:|:---:|
