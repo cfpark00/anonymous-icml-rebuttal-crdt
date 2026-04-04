@@ -50,7 +50,7 @@ Participation ratio of singular values for all 63 experiments, layers 3-6.
 
 ## 3. Scattered Atlantis (pKZe Q2a/Q2b)
 
-100 Atlantis cities scattered uniformly across the globe (not clustered). Full PT1 + 21 FTWB2 models trained, representations extracted, probe generalization evaluated.
+100 Atlantis cities scattered uniformly across the globe (not clustered). Full multi-task pretraining + all 21 two-task fine-tuning models trained, representations extracted, probe generalization evaluated.
 
 | |
 |:---:|
@@ -78,7 +78,7 @@ Participation ratio of singular values for all 63 experiments, layers 3-6.
 | |
 |:---:|
 | ![](assets/main/width_ablation_diff.png) |
-| **Figure 4.** FTWB2 - FTWB1 difference for the wide model. Same qualitative pattern as the default architecture: distance remains divergent. |
+| **Figure 4.** Two-task minus best single-task fine-tuning difference for the wide model. Same qualitative pattern as the default architecture: distance remains divergent. |
 
 **Takeaway**: Doubling model capacity does not resolve the divergent task phenomenon. This is a property of the task-representation interaction, not a capacity limitation.
 
@@ -126,10 +126,10 @@ The parameter-level analysis does not single out distance. But divergent fine-tu
 
 We test whether the divergent task phenomenon depends on *which* region is held out during pretraining, by running the full pipeline three times with three different holdout regions. 87 new models total.
 
-- **Setup:** Three geographic holdout regions: North Africa (234 cities), North India (259 cities), Middle East (210 cities). Each excluded from pretraining, then integrated via fine-tuning. Full PT1 + 7 FTWB1 + 21 FTWB2 per region.
-- **FTWB1 (Figure 6b):** Distance is the worst single-task specialist at transferring to other tasks in every region (avg transfer: NA=0.11, NI=0.12, ME=0.04 vs other tasks 0.43–0.50). No other task becomes divergent.
-- **FTWB2 best-teacher (Figure 6c):** All 6 distance-containing pairs show interference (red), non-distance pairs are neutral/synergistic. Pattern is identical across all 3 regions.
-- **Probe generalization (Figures 6d-e):** A non-distance model (A+P) integrates holdout cities at baseline accuracy (error 112–128 ≈ baseline 119–133). A distance-containing model (D+I) shows 3–4× worse probe error (318–435), confirming representational harm.
+- **Setup:** Three geographic holdout regions: North Africa (234 cities), North India (259 cities), Middle East (210 cities). Each excluded from pretraining, then integrated via fine-tuning. Full multi-task pretraining + 7 single-task + 21 two-task fine-tuning per region.
+- **Single-task fine-tuning (Figure 6b):** Distance is the worst single-task specialist at transferring to other tasks in every region (avg transfer: NA=0.11, NI=0.12, ME=0.04 vs other tasks 0.43-0.50). No other task becomes divergent.
+- **Two-task best-teacher (Figure 6c):** All 6 distance-containing pairs show interference (red), non-distance pairs are neutral/synergistic. Pattern is identical across all 3 regions.
+- **Probe generalization (Figures 6d-e):** A non-distance model (A+P) integrates holdout cities at baseline accuracy (error 112-128 ≈ baseline 119-133). A distance-containing model (D+I) shows 3-4x worse probe error (318-435), confirming representational harm.
 
 | |
 |:---:|
@@ -139,14 +139,14 @@ We test whether the divergent task phenomenon depends on *which* region is held 
 | |
 |:---:|
 | ![](assets/main/exp7_ftwb1_3regions.png) |
-| **Figure 6b.** FTWB1 single-task normalized improvement heatmaps (7x7) for three holdout regions. Rows = fine-tuning task, columns = evaluation task. Distance (row D) consistently shows near-zero transfer to all other tasks across all three regions (avg: NA=0.11, NI=0.12, ME=0.04), while other tasks transfer substantially. |
+| **Figure 6b.** Single-task fine-tuning normalized improvement heatmaps (7x7) for three holdout regions. Rows = fine-tuning task, columns = evaluation task. Distance (row D) consistently shows near-zero transfer to all other tasks across all three regions (avg: NA=0.11, NI=0.12, ME=0.04), while other tasks transfer substantially. |
 
 | |
 |:---:|
 | ![](assets/main/exp7_ftwb2_vs_ftwb1_3regions.png) |
-| **Figure 6c.** FTWB2 minus best-FTWB1 (two-task synergy/interference) for three holdout regions. Blue = synergy (two-task exceeds best single-task), red = interference. The pattern is consistent across all three regions: all 6 distance-containing pairs (rows D,T through D,Cr) show interference, while non-distance pairs are neutral to mildly synergistic. |
+| **Figure 6c.** Two-task minus best single-task fine-tuning (synergy/interference) for three holdout regions. Blue = synergy (two-task exceeds best single-task), red = interference. The pattern is consistent across all three regions: all 6 distance-containing pairs (rows D,T through D,Cr) show interference, while non-distance pairs are neutral to mildly synergistic. |
 
-| Region | FTWB1 Distance transfer | FTWB1 Other tasks transfer (avg) | FTWB2 overall diff |
+| Region | Distance transfer (1-task FT) | Other tasks transfer avg (1-task FT) | Two-task overall diff |
 |--------|:---:|:---:|:---:|
 | **North Africa** | 0.11 | 0.50 | +0.009 |
 | **North India** | 0.12 | 0.49 | -0.001 |
@@ -184,7 +184,7 @@ Everything below is the complete set of plots for all metrics, groups, and layer
 
 ## CKA  - All Groups, All Layers
 
-Per group (pt1x, pt2, pt3, ftwb1, ftwb2), per layer (3-6): `full_matrix`, `averaged_matrix`, `averaged_matrix_sem`, `intra_vs_inter`.
+Per group (1-task, 2-task, 3-task, single-task FT, two-task FT), per layer (3-6): `full_matrix`, `averaged_matrix`, `averaged_matrix_sem`, `intra_vs_inter`.
 
 | File | Description |
 |------|-------------|
@@ -194,8 +194,8 @@ Per group (pt1x, pt2, pt3, ftwb1, ftwb2), per layer (3-6): `full_matrix`, `avera
 | `full_dump/cka/pt1x_intra_vs_inter_l{3,4,5,6}.png` | Bar plot, PT1-X |
 | `full_dump/cka/pt2_*` | Same set for PT2 |
 | `full_dump/cka/pt3_*` | Same set for PT3 |
-| `full_dump/cka/ftwb1_*` | Same set for FTWB1 (layer 5 only) |
-| `full_dump/cka/ftwb2_*` | Same set for FTWB2 (layer 5 only) |
+| `full_dump/cka/ftwb1_*` | Same set for single-task FT (layer 5 only) |
+| `full_dump/cka/ftwb2_*` | Same set for two-task FT (layer 5 only) |
 
 ## RSA  - All Groups, All Layers
 
@@ -232,8 +232,8 @@ Per group (pt1x, pt2, pt3, ftwb1, ftwb2), per layer (3-6): `full_matrix`, `avera
 
 | File | Description |
 |------|-------------|
-| `full_dump/seed_robustness/{original,seed1,seed2,seed3}_ftwb1_evaluation_heatmap.png` | Per-seed FTWB1 |
-| `full_dump/seed_robustness/{original,seed1,seed2,seed3}_ftwb2_evaluation_heatmap.png` | Per-seed FTWB2 |
+| `full_dump/seed_robustness/{original,seed1,seed2,seed3}_ftwb1_evaluation_heatmap.png` | Per-seed single-task FT |
+| `full_dump/seed_robustness/{original,seed1,seed2,seed3}_ftwb2_evaluation_heatmap.png` | Per-seed two-task FT |
 | `full_dump/seed_robustness/{original,seed1,seed2,seed3}_ftwb2_vs_ftwb1.png` | Per-seed difference |
 | `full_dump/seed_robustness/aggregated_*.png` | Aggregated versions |
 | `full_dump/seed_robustness/*cka_generalization*.png` | CKA-generalization correlations |
@@ -245,6 +245,6 @@ Per group (pt1x, pt2, pt3, ftwb1, ftwb2), per layer (3-6): `full_matrix`, `avera
 |------|-------------|
 | `full_dump/cka_multilayer/same_task_cka_trends*.png` | Same-task vs cross-task CKA trends |
 | `full_dump/cka_multilayer/cka_trends_*.png` | Per-seed and aggregated CKA trends |
-| `full_dump/wide_ftwb1_evaluation_heatmap.png` | Wide model FTWB1 |
-| `full_dump/wide_ftwb2_evaluation_heatmap.png` | Wide model FTWB2 |
+| `full_dump/wide_ftwb1_evaluation_heatmap.png` | Wide model single-task FT |
+| `full_dump/wide_ftwb2_evaluation_heatmap.png` | Wide model two-task FT |
 | `full_dump/wide_ftwb2_vs_ftwb1.png` | Wide model difference |
