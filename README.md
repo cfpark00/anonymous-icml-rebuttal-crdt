@@ -84,23 +84,37 @@ Participation ratio of singular values for all 63 experiments, layers 3-6.
 
 ---
 
-## 5. Activation Gradient Analysis (CBid Q3 - Mechanistic Evidence)
+## 5. Gradient Analysis (CBid Q3 - Mechanistic Evidence)
 
-We computed the gradient of the fine-tuning loss with respect to hidden activations *at the novel entity's token position* for each of the 7 single-task fine-tuning datasets (~5,500 gradient samples per task). This measures: "which direction does each task's loss want to push the new entity's internal representation?" We then compare these directions across tasks and project them onto the coordinate probe subspace (the 2D linear subspace that encodes X, Y coordinates).
+We analyze task gradient alignment at two levels: (a) parameter-space gradients (which model weights each task wants to update), and (b) activation-space gradients (which direction each task wants to push the novel entity's internal representation). The contrast between these two analyses is informative.
+
+### 5a. Parameter-Space Gradient Similarity
+
+We compute the cosine similarity between the flattened parameter gradients of each pair of single-task fine-tuning losses, averaged over ~640 samples per task. This measures whether tasks want to update the same weights in the same direction.
+
+| |
+|:---:|
+| ![](assets/main/param_grad_cossim_global.png) |
+
+**Figure 5a.** Pairwise cosine similarity of parameter gradients (all model parameters). Distance is *not* an outlier — its similarities with other tasks range from -0.06 to 0.35, comparable to other pairs. The most anti-correlated pair is actually inside–distance (-0.32). Most task pairs show low positive similarity (0.04–0.41), indicating the tasks update largely orthogonal but not conflicting sets of parameters.
+
+### 5b. Activation-Space Gradient Analysis
+
+The parameter-level analysis does not single out distance. But divergent fine-tuning operates at the *representation* level — the question is not which weights get updated, but how those updates affect the novel entity's internal state. We therefore compute the gradient of each task's fine-tuning loss with respect to hidden activations *at the novel entity's token position* (~5,500 samples per task). This measures: "which direction does each task's loss want to push the new entity's internal representation?"
 
 | Layer 3 | Layer 4 | Layer 5 |
 |:---:|:---:|:---:|
 | ![](assets/main/activation_grad_cossim_l3.png) | ![](assets/main/activation_grad_cossim_l4.png) | ![](assets/main/activation_grad_cossim_l5.png) |
 
-**Figure 5a.** Pairwise cosine similarity of mean activation gradients at atlantis (novel entity) token positions, across layers 3–5. Distance is *anti-correlated* with all six other tasks at every layer, while the other six are mutually aligned (0.60–0.95). The effect is strongest at layers 3–4 (the causal computation layers).
+**Figure 5b.** Pairwise cosine similarity of mean activation gradients at novel entity token positions, across layers 3–5. In sharp contrast with the parameter-level analysis (Figure 5a), distance is *anti-correlated* with all six other tasks at every layer, while the other six are mutually aligned (0.60–0.95). The effect is strongest at layers 3–4 (the causal computation layers identified by our intervention analysis).
 
 | Layer 3 | Layer 4 | Layer 5 |
 |:---:|:---:|:---:|
 | ![](assets/main/activation_grad_coord_space_l3.png) | ![](assets/main/activation_grad_coord_space_l4.png) | ![](assets/main/activation_grad_coord_space_l5.png) |
 
-**Figure 5b.** Mean activation gradient projected onto the X and Y coordinate probe directions. Each point is one task. Distance (red square) is the only task with a negative X-projection at every layer - it pushes new entity representations in the opposite direction along the primary coordinate axis.
+**Figure 5c.** Mean activation gradient projected onto the X and Y coordinate probe directions. Each point is one task. Distance (red square) is the only task with a negative X-projection at every layer — it pushes new entity representations in the opposite direction along the primary coordinate axis.
 
-**Takeaway**: This provides mechanistic evidence for *why* the distance task harms new entity integration. At the representation level, distance fine-tuning gradients push novel entity activations in the opposite direction from all other tasks. The other six tasks agree on which direction to move representations (positive X), but distance pushes the opposite way (negative X). This is not an optimization artifact - it reflects a fundamental conflict between what distance learning requires and what the shared coordinate space demands.
+**Takeaway**: The two-level analysis reveals that the divergence is specifically localized to the representation level, not the parameter level. Tasks update largely similar parameters (Figure 5a), but the *effect* of those updates on novel entity representations is opposite for distance vs. all other tasks (Figure 5b-c). This is a more precise mechanistic claim than "distance learns different weights" — it means the same parameter updates push entity representations in conflicting directions. The conflict is strongest at layers 3–4, consistent with the causal computation boundary identified independently through our intervention analysis.
 
 ---
 
