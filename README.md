@@ -96,7 +96,7 @@ We compute the cosine similarity between the flattened parameter gradients of ea
 |:---:|
 | <img src="assets/main/param_grad_cossim_global.png" width="50%"> |
 
-**Figure 5a.** Pairwise cosine similarity of parameter gradients (all model parameters). Distance is *not* an outlier — its similarities with other tasks range from -0.06 to 0.35, comparable to other pairs. The most anti-correlated pair is actually inside–distance (-0.32). Most task pairs show low positive similarity (0.04–0.41), indicating the tasks update largely orthogonal but not conflicting sets of parameters.
+**Figure 5a.** Pairwise cosine similarity of parameter gradients (all model parameters). No task stands out as particularly divergent. Most pairs show near-zero similarity (0.04–0.25), which is expected given the high dimensionality of the parameter space — random vectors in high dimensions are approximately orthogonal. The most negative pair is inside–distance (-0.32), not distance alone. In short: at the parameter level, these tasks are largely indifferent to each other.
 
 ### 5b. Activation-Space Gradient Analysis
 
@@ -106,7 +106,7 @@ The parameter-level analysis does not single out distance. But divergent fine-tu
 |:---:|:---:|:---:|
 | ![](assets/main/activation_grad_cossim_l3.png) | ![](assets/main/activation_grad_cossim_l4.png) | ![](assets/main/activation_grad_cossim_l5.png) |
 
-**Figure 5b.** Pairwise cosine similarity of mean activation gradients at novel entity token positions, across layers 3–5. In sharp contrast with the parameter-level analysis (Figure 5a), distance is *anti-correlated* with all six other tasks at every layer, while the other six are mutually aligned (0.60–0.95). The effect is strongest at layers 3–4 (the causal computation layers identified by our intervention analysis).
+**Figure 5b.** Pairwise cosine similarity of mean activation gradients at novel entity token positions, across layers 3–5. The picture here is drastically different from the parameter-level analysis. The six non-distance tasks are strongly mutually aligned (0.60–0.95) — they agree on which direction to push entity representations. Distance is anti-correlated with *every single one of them* at every layer. This is not the high-dimensional near-orthogonality seen in parameter space; this is active opposition in a low-dimensional representational bottleneck.
 
 | Layer 3 | Layer 4 | Layer 5 |
 |:---:|:---:|:---:|
@@ -114,7 +114,7 @@ The parameter-level analysis does not single out distance. But divergent fine-tu
 
 **Figure 5c.** Mean activation gradient projected onto the X and Y coordinate probe directions. Each point is one task. Distance (red square) is the only task with a negative X-projection at every layer — it pushes new entity representations in the opposite direction along the primary coordinate axis.
 
-**Takeaway**: The two-level analysis reveals that the divergence is specifically localized to the representation level, not the parameter level. Tasks update largely similar parameters (Figure 5a), but the *effect* of those updates on novel entity representations is opposite for distance vs. all other tasks (Figure 5b-c). This is a more precise mechanistic claim than "distance learns different weights" — it means the same parameter updates push entity representations in conflicting directions. The conflict is strongest at layers 3–4, consistent with the causal computation boundary identified independently through our intervention analysis.
+**Takeaway**: Parameter gradients are uninformative — all tasks are roughly orthogonal in parameter space, as expected in high dimensions (Figure 5a). The divergence only becomes visible when we ask *what those parameter updates do to entity representations*. There, the six non-distance tasks form a tight coalition, all pushing entity representations in the same direction, while distance pushes the opposite way (Figures 5b-c). The conflict is strongest at layers 3–4, consistent with the causal computation boundary identified independently through our intervention analysis. This rules out the simple explanation that "distance learns different weights" — instead, similar weight updates produce *opposite representational effects* at the entity position.
 
 ---
 
