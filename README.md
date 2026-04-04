@@ -124,6 +124,11 @@ To test whether distance divergence depends on *which* region is held out during
 
 | |
 |:---:|
+| ![](assets/main/exp7_holdout_regions.png) |
+| **Figure 6.** The three geographic holdout regions. Each region is excluded from pretraining data, then integrated via fine-tuning. |
+
+| |
+|:---:|
 | ![](assets/main/exp7_ftwb1_3regions.png) |
 | **Figure 6a.** FTWB1 single-task normalized improvement heatmaps (7x7) for three holdout regions. Rows = fine-tuning task, columns = evaluation task. Distance (row D) consistently shows near-zero transfer to all other tasks across all three regions (avg: NA=0.11, NI=0.12, ME=0.04), while other tasks transfer substantially. |
 
