@@ -103,6 +103,31 @@ We computed the gradient of the fine-tuning loss with respect to hidden activati
 **Takeaway**: This provides mechanistic evidence for *why* the distance task harms new entity integration. At the representation level, distance fine-tuning gradients push novel entity activations in the opposite direction from all other tasks. The other six tasks agree on which direction to move representations (positive X), but distance pushes the opposite way (negative X). This is not an optimization artifact - it reflects a fundamental conflict between what distance learning requires and what the shared coordinate space demands.
 
 ---
+
+## 6. Geographic Holdout Robustness (pKZe Q2a)
+
+To test whether distance divergence depends on *which* region is held out during pretraining, we ran the full pipeline (PT1 + 7 FTWB1 + 21 FTWB2 = 29 models) three times, each time holding out a different geographic region: North Africa (234 cities), North India (259 cities), and Middle East (210 cities). 87 new models total.
+
+| |
+|:---:|
+| ![](assets/main/exp7_ftwb1_3regions.png) |
+| **Figure 6a.** FTWB1 single-task normalized improvement heatmaps (7x7) for three holdout regions. Rows = fine-tuning task, columns = evaluation task. Distance (row D) consistently shows near-zero transfer to all other tasks across all three regions (avg: NA=0.11, NI=0.12, ME=0.04), while other tasks transfer substantially. |
+
+| |
+|:---:|
+| ![](assets/main/exp7_ftwb2_vs_ftwb1_3regions.png) |
+| **Figure 6b.** FTWB2 minus best-FTWB1 (two-task synergy/interference) for three holdout regions. Blue = synergy (two-task exceeds best single-task), red = interference. The pattern is consistent across all three regions: pairs containing inside+perimeter, crossing+distance, trianglearea+angle show interference (rows 3-6), while pairs like distance+inside, angle+crossing show synergy (rows 19, 21). |
+
+| Region | FTWB1 Distance transfer | FTWB1 Other tasks transfer (avg) | FTWB2 overall diff |
+|--------|:---:|:---:|:---:|
+| **North Africa** | 0.11 | 0.50 | +0.009 |
+| **North India** | 0.12 | 0.49 | -0.001 |
+| **Middle East** | 0.04 | 0.43 | +0.021 |
+| **Original Atlantis** | 0.06 | 0.47 | — |
+
+**Takeaway**: Distance is the worst-transferring task regardless of which geographic region is held out. The divergent task phenomenon is a property of the task itself, not of the holdout geometry. This directly addresses Q2a: no other task becomes divergent when the pretraining data distribution changes. Combined with the scattered Atlantis experiment (Section 3, addressing Q2b), this establishes that distance divergence is invariant to both the geometry and location of held-out entities.
+
+---
 ---
 
 # Full Figure Dump
