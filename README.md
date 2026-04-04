@@ -96,25 +96,25 @@ We compute the cosine similarity between the flattened parameter gradients of ea
 |:---:|
 | <img src="assets/main/param_grad_cossim_global.png" width="50%"> |
 
-**Figure 5a.** Pairwise cosine similarity of parameter gradients (all model parameters). No task stands out as particularly divergent. Most pairs show near-zero similarity (0.04–0.25), which is expected given the high dimensionality of the parameter space -- random vectors in high dimensions are approximately orthogonal. The most negative pair is inside–distance (-0.32), not distance alone. In short: at the parameter level, these tasks are largely indifferent to each other.
+**Figure 5a.** Pairwise cosine similarity of parameter gradients (all model parameters). No task stands out as particularly divergent. Most pairs show near-zero similarity (0.04–0.25), consistent with high-dimensional parameter vectors being approximately orthogonal by default. The most negative pair is inside–distance (-0.32), not distance alone. At the parameter level, these tasks are largely indifferent to each other.
 
 ### 5b. Activation-Space Gradient Analysis
 
-The parameter-level analysis does not single out distance. But divergent fine-tuning operates at the *representation* level -- the question is not which weights get updated, but how those updates affect the novel entity's internal state. We therefore compute the gradient of each task's fine-tuning loss with respect to hidden activations *at the novel entity's token position* (~5,500 samples per task). This measures: "which direction does each task's loss want to push the new entity's internal representation?"
+The parameter-level analysis does not single out distance. But divergent fine-tuning operates at the *representation* level: the question is not which weights get updated, but how those updates affect the novel entity's internal state. We therefore compute the gradient of each task's fine-tuning loss with respect to hidden activations *at the novel entity's token position* (~5,500 samples per task). This measures: "which direction does each task's loss want to push the new entity's internal representation?"
 
 | Layer 3 | Layer 4 | Layer 5 |
 |:---:|:---:|:---:|
 | ![](assets/main/activation_grad_cossim_l3.png) | ![](assets/main/activation_grad_cossim_l4.png) | ![](assets/main/activation_grad_cossim_l5.png) |
 
-**Figure 5b.** Pairwise cosine similarity of mean activation gradients at novel entity token positions, across layers 3–5. The picture here is drastically different from the parameter-level analysis. The six non-distance tasks are strongly mutually aligned (0.60–0.95) -- they agree on which direction to push entity representations. Distance is anti-correlated with *every single one of them* at every layer. This is not the high-dimensional near-orthogonality seen in parameter space; this is active opposition in a low-dimensional representational bottleneck.
+**Figure 5b.** Pairwise cosine similarity of mean activation gradients at novel entity token positions, across layers 3–5. The picture here is drastically different from the parameter-level analysis. The six non-distance tasks are strongly mutually aligned (0.60–0.95), all agreeing on which direction to push entity representations. Distance is anti-correlated with *every single one of them* at every layer. Unlike the near-orthogonality in parameter space, this is active opposition in a low-dimensional representational bottleneck.
 
 | Layer 3 | Layer 4 | Layer 5 |
 |:---:|:---:|:---:|
 | ![](assets/main/activation_grad_coord_space_l3.png) | ![](assets/main/activation_grad_coord_space_l4.png) | ![](assets/main/activation_grad_coord_space_l5.png) |
 
-**Figure 5c.** Mean activation gradient projected onto the X and Y coordinate probe directions. Each point is one task. Distance (red square) is the only task with a negative X-projection at every layer -- it pushes new entity representations in the opposite direction along the primary coordinate axis.
+**Figure 5c.** Mean activation gradient projected onto the X and Y coordinate probe directions. Each point is one task. Distance (red square) is the only task with a negative X-projection at every layer, pushing new entity representations in the opposite direction along the primary coordinate axis.
 
-**Takeaway**: Parameter gradients are uninformative -- all tasks are roughly orthogonal in parameter space, as expected in high dimensions (Figure 5a). The divergence only becomes visible when we ask *what those parameter updates do to entity representations*. There, the six non-distance tasks form a tight coalition, all pushing entity representations in the same direction, while distance pushes the opposite way (Figures 5b-c). The conflict is strongest at layers 3–4, consistent with the causal computation boundary identified independently through our intervention analysis. This rules out the simple explanation that "distance learns different weights" -- instead, similar weight updates produce *opposite representational effects* at the entity position.
+**Takeaway**: Parameter gradients are uninformative: all tasks are roughly orthogonal in parameter space, as expected in high dimensions (Figure 5a). The divergence only becomes visible when we ask *what those parameter updates do to entity representations*. There, the six non-distance tasks form a tight coalition, all pushing entity representations in the same direction, while distance pushes the opposite way (Figures 5b-c). The conflict is strongest at layers 3–4, consistent with the causal computation boundary identified independently through our intervention analysis. This rules out the simple explanation that "distance learns different weights." Instead, similar weight updates produce *opposite representational effects* at the entity position.
 
 ---
 
@@ -142,7 +142,7 @@ To test whether distance divergence depends on *which* region is held out during
 | **North Africa** | 0.11 | 0.50 | +0.009 |
 | **North India** | 0.12 | 0.49 | -0.001 |
 | **Middle East** | 0.04 | 0.43 | +0.021 |
-| **Original Atlantis** | 0.06 | 0.47 | -- |
+| **Original Atlantis** | 0.06 | 0.47 | |
 
 **Takeaway**: Distance is the worst-transferring task regardless of which geographic region is held out. The divergent task phenomenon is a property of the task itself, not of the holdout geometry. This directly addresses Q2a: no other task becomes divergent when the pretraining data distribution changes. Combined with the scattered Atlantis experiment (Section 3, addressing Q2b), this establishes that distance divergence is invariant to both the geometry and location of held-out entities.
 
