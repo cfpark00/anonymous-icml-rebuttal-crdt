@@ -94,7 +94,7 @@ We compute the cosine similarity between the flattened parameter gradients of ea
 
 | |
 |:---:|
-| ![](assets/main/param_grad_cossim_global.png) |
+| <img src="assets/main/param_grad_cossim_global.png" width="50%"> |
 
 **Figure 5a.** Pairwise cosine similarity of parameter gradients (all model parameters). Distance is *not* an outlier — its similarities with other tasks range from -0.06 to 0.35, comparable to other pairs. The most anti-correlated pair is actually inside–distance (-0.32). Most task pairs show low positive similarity (0.04–0.41), indicating the tasks update largely orthogonal but not conflicting sets of parameters.
 
